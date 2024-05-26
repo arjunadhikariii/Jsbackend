@@ -1,19 +1,32 @@
 import express from "express";
-import userRouter from "./routes/user.route.js";
 import dotenv from "dotenv";
+//dotenv configuration
 dotenv.config();
-import { connectDB } from "./config/db.js";
 
+//custom import
+import { connectDB } from "./config/db.js";
+import userRoutes from "./routes/user.route.js";
+import bookRoutes from "./routes/book.route.js";
+
+//server
 const app = express();
 
-//databse
+//database connection
 connectDB();
 
-//routes
-app.use("/api/v1", userRouter);
+//middleware
+app.use(express.json());
 
+//routes
+app.use("/api/v1", userRoutes);
+app.use("/api/v1", bookRoutes);
+
+//port number
 const port = process.env.PORT;
 
-app.listen(port, () => {
-  console.log(`Server started at ${port}`);
+//server started s
+app.listen(port, (req, res) => {
+  console.log(`server started at port ${port}`);
 });
+
+// http://localhost:8000/api/v1/register
